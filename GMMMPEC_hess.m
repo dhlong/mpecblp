@@ -1,4 +1,4 @@
-function [hess] = GMMMPEC_hess_ktr(x0,lambda) 
+function [hess] = GMMMPEC_hess(x0,sigma,lambda) 
 
 % GMMMPEC_c
 % Constraints for the random coefficients Logit estimated via MPEC.
@@ -7,7 +7,7 @@ function [hess] = GMMMPEC_hess_ktr(x0,lambda)
 % Code Revised: January 2012
 
 
-global x IV K prods T v x nn logshare share W 
+global x IV K prods T v nn logshare share W 
 global prodsMarket numProdsTotal marketStarts marketEnds
 
 theta1 = x0(1:K+1, 1);                              % mean tastes
@@ -21,7 +21,7 @@ ooo = ones(1,K+1);
 
 
 hess = zeros(nx0, nx0);
-hess(2*K+3+numProdsTotal:end, 2*K+3+numProdsTotal:end) = 2*W;
+hess(2*K+3+numProdsTotal:end, 2*K+3+numProdsTotal:end) = sigma*2*W;
 
 expmu = exp(x*diag(theta2)*v);      % exponentiated deviations from mean utilities
 expmeanval = exp(delta);
@@ -36,7 +36,7 @@ dL2ddelta2 = zeros(numProdsTotal, numProdsTotal);
 % Evaluate the hessian    
 for t=1:T,
     index = marketStarts(t):marketEnds(t);
-    multip = lambda.eqnonlin(index);
+    multip = lambda(index);
     ooo1 = ones(prodsMarket(t),1);
     for rr = 1:nn,
             
