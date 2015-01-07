@@ -223,9 +223,9 @@ for reps=1:starts,
     INFOMPEC_rep = exitflag;
     
     CPUtMPEC = CPUtMPEC + CPUtMPEC_rep;    
-    FuncEvalMPEC = FuncEvalMPEC + output.funcCount;
-    GradEvalMPEC = GradEvalMPEC + output.funcCount+1;
-    HessEvalMPEC = HessEvalMPEC + output.funcCount;
+    FuncEvalMPEC = FuncEvalMPEC + info.FuncEvals.objective;
+    GradEvalMPEC = GradEvalMPEC + info.FuncEvals.gradient+1;
+    HessEvalMPEC = HessEvalMPEC + info.FuncEvals.hessian;
     
     
     if (GMPEC_rep < GMPEC && INFOMPEC_rep==0),
